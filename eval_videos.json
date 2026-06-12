@@ -1,0 +1,154 @@
+{
+  "description": "Gold set for video (thumbnail+title) retrieval over the 300-video corpus. Spanish queries; relevance annotated by reading the 300 titles. One annotator; binary relevance at video level.",
+  "queries": [
+    {
+      "id": "v01",
+      "query": "recetas de pan y repostería casera",
+      "n_relevant": 9,
+      "relevant_video_ids": [
+        "6VI_5e9r8Kk",
+        "jVuaUtQftRo",
+        "MtTHebs4dtI",
+        "nfZn2qBaZgg",
+        "PpptgxaJZ3o",
+        "ttRB2pPg7ng",
+        "8Xd4WVoDZ5Y",
+        "2xtd6B9cUvg",
+        "8jiIxc8r06s"
+      ]
+    },
+    {
+      "id": "v02",
+      "query": "aperitivos salados de hojaldre para picnic",
+      "n_relevant": 3,
+      "relevant_video_ids": [
+        "VdYXqopgr7c",
+        "JfRbDhmLLTc",
+        "XeCtnefJ6GM"
+      ]
+    },
+    {
+      "id": "v03",
+      "query": "rutinas de ejercicio y entrenamiento en casa",
+      "n_relevant": 10,
+      "relevant_video_ids": [
+        "GDVEbKgnFLY",
+        "FLZNtR-FwFs",
+        "ocsXIxB_Q10",
+        "SxoBKb0hdAY",
+        "1CaSpeLsuO8",
+        "3MmLIFHRD3A",
+        "VZ3i4xvhD9Y",
+        "3e_SnqA_cDE",
+        "xsF4J2wv9Ic",
+        "Vz1dO9bvEhM"
+      ]
+    },
+    {
+      "id": "v04",
+      "query": "videojuegos de simulación de gestión de negocios",
+      "n_relevant": 6,
+      "relevant_video_ids": [
+        "so1mzcgYbso",
+        "blnW-wV6nGE",
+        "q0Eoi_eOs54",
+        "iwayfLYV4VE",
+        "S01rFfnlIlE",
+        "0KkrwwUHTr4"
+      ]
+    },
+    {
+      "id": "v05",
+      "query": "reacciones a canciones famosas",
+      "n_relevant": 10,
+      "relevant_video_ids": [
+        "BEowYX19MmY",
+        "vZu9gUX1tTs",
+        "kGPggufAoFE",
+        "fYEyNXtw7I4",
+        "4vU6zADOkdo",
+        "2KCYaHBBTsQ",
+        "zK3GUcAtsqk",
+        "pV7B6peygxc",
+        "cVGSx5623Nc",
+        "wIT6RzDwYao"
+      ]
+    },
+    {
+      "id": "v06",
+      "query": "inteligencia artificial: agentes y modelos locales",
+      "n_relevant": 7,
+      "relevant_video_ids": [
+        "QMjyx1V231c",
+        "82xYXKTqZdU",
+        "L7FF8Zgab3M",
+        "-YkpOpE-mns",
+        "TgfvEQVdga8",
+        "pf1Y8au7gek",
+        "kNfqJrUFNeo"
+      ]
+    },
+    {
+      "id": "v07",
+      "query": "reseñas y críticas de películas",
+      "n_relevant": 12,
+      "relevant_video_ids": [
+        "k9GFn430zc8",
+        "-BDalYexDRQ",
+        "mPR8C8w6VlE",
+        "9Cs17UNoRBQ",
+        "BIlILOSGwIE",
+        "rh_I_puzijk",
+        "B_YUqtCLE_w",
+        "o33Pz48yNAU",
+        "8h9poMX7l_4",
+        "tfRBVFwWbkg",
+        "G-gi272-TWg",
+        "QDQscfuZXHI"
+      ]
+    },
+    {
+      "id": "v08",
+      "query": "canciones tristes de desamor",
+      "n_relevant": 6,
+      "relevant_video_ids": [
+        "9u_iOgEy5u4",
+        "Yvinv1lSwHw",
+        "aU9ypf7Jm4I",
+        "CtblA16KMGU",
+        "hZQod5IXpFo",
+        "iGlP1hG0S-c"
+      ]
+    },
+    {
+      "id": "v09",
+      "query": "vlogs y tours de viajes por el mundo",
+      "n_relevant": 8,
+      "relevant_video_ids": [
+        "9ki6ZVO1I0E",
+        "9hCsj6ceKR0",
+        "V21JZpkodcA",
+        "LEJiH2-oufw",
+        "xBdQmxl33-k",
+        "qBMdYbjZtdU",
+        "IBl0ufQ1Dh8",
+        "YSp63kq8X9w"
+      ]
+    },
+    {
+      "id": "v10",
+      "query": "finanzas personales e inversión",
+      "n_relevant": 8,
+      "relevant_video_ids": [
+        "8ez8obdliEI",
+        "UNOHdyhjMyg",
+        "8GXGLtk30CQ",
+        "fSs1S_eV3Nw",
+        "QmXCPcE5474",
+        "aeSZWQLTR3A",
+        "XRWwBBc-oqM",
+        "BXDmTFhOr-8"
+      ]
+    }
+  ]
+}

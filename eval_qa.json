@@ -1,0 +1,253 @@
+{
+  "description": "Gold QA set for the MAVIS multi-format RAG assistant. 27 answerable questions (each with hand-annotated relevant documents and a reference answer written by reading the corpus) plus 4 unanswerable questions used to measure abstention. Questions are in Spanish on purpose: the corpus is mostly English, so the set also exercises cross-lingual retrieval (mpnet is multilingual). Annotation is at DOCUMENT level: a retrieved chunk counts as relevant if it belongs to a gold document.",
+  "questions": [
+    {
+      "id": "q01",
+      "question": "¿Qué fórmula define el score relativo al canal que usa MAVIS como target?",
+      "reference_answer": "El target es un z-score logarítmico por canal: z = (log10(views) − μ_canal) / σ_canal. El modelo se entrena y evalúa en z-space; la escala 1-10 que ve el creador es solo presentación.",
+      "gold_docs": ["md/01-classifier-README.md", "md/root-README.md"],
+      "format": "md",
+      "answerable": true
+    },
+    {
+      "id": "q02",
+      "question": "¿Qué AUC OUTLIER alcanza el modelo final del clasificador y con qué protocolo se midió?",
+      "reference_answer": "OUTLIER AUC 0.762 (ganadores vs perdedores), medido held-out con GroupKFold por canal sobre 524 canales. FLOP 0.708 y HIT 0.658.",
+      "gold_docs": ["md/01-classifier-README.md", "md/root-README.md"],
+      "format": "md",
+      "answerable": true
+    },
+    {
+      "id": "q03",
+      "question": "¿Por qué el buscador multimodal de MAVIS usa dos encoders en vez de un único modelo multimodal?",
+      "reference_answer": "Porque el encoder de texto de SigLIP es anisótropo: títulos sin relación quedan a coseno ≈0.88, así que ordena por estilo y no por tema y es inútil para título↔título. Por eso mpnet (multilingüe) cubre el texto↔texto y SigLIP 2 large cubre las rutas con imagen y cross-modales.",
+      "gold_docs": ["md/02-retrieval-README.md"],
+      "format": "md",
+      "answerable": true
+    },
+    {
+      "id": "q04",
+      "question": "¿Cómo se combinan las distintas rutas de búsqueda en un único ranking?",
+      "reference_answer": "Con Reciprocal Rank Fusion (RRF, k=60): score = Σ w/(k + rank + 1). Al basarse en rangos tolera escalas distintas entre encoders, y el resultado se deduplica por vídeo.",
+      "gold_docs": ["md/02-retrieval-README.md", "md/03-platform-README.md"],
+      "format": "md",
+      "answerable": true
+    },
+    {
+      "id": "q05",
+      "question": "¿Cuántos vídeos y cuántos canales tiene el corpus de MAVIS?",
+      "reference_answer": "Unos 42.000 vídeos (41.958 con views>0 tras deduplicar) de 844 canales.",
+      "gold_docs": ["md/root-README.md", "csv/channel_stats.csv"],
+      "format": "csv",
+      "answerable": true
+    },
+    {
+      "id": "q06",
+      "question": "¿Usa MAVIS la API oficial de YouTube para recolectar los datos?",
+      "reference_answer": "No. El scraper parsea el bloque ytInitialData del HTML público del canal, pagina con el endpoint interno innertube y abre la watch page de cada vídeo. Sin claves de API y sin cuotas.",
+      "gold_docs": ["md/00-scraping-README.md"],
+      "format": "md",
+      "answerable": true
+    },
+    {
+      "id": "q07",
+      "question": "¿Por qué el scraper abre la página watch de cada vídeo candidato?",
+      "reference_answer": "Porque el listado del canal solo da una fecha relativa ('hace 3 meses'), insuficiente para distinguir el año en el borde. La watch page (ytInitialPlayerResponse) da la fecha exacta de publicación, las views exactas y la duración (para excluir shorts).",
+      "gold_docs": ["md/00-scraping-README.md"],
+      "format": "md",
+      "answerable": true
+    },
+    {
+      "id": "q08",
+      "question": "Según la literatura revisada, ¿qué techo tiene la predicción de popularidad usando solo el contenido del vídeo?",
+      "reference_answer": "Un techo modesto de Spearman ≈0.23-0.28 (Trzciński & Rokita 2017, corroborando a Khosla et al.). Los números altos como el r=0.73 de Cui incluyen suscriptores, duración y categoría como controles, no son contenido puro.",
+      "gold_docs": ["md/papers-sintesis.md", "pdf/1510.06223v4.pdf"],
+      "format": "pdf",
+      "answerable": true
+    },
+    {
+      "id": "q09",
+      "question": "¿Qué efecto encuentra Cui et al. (2024) para el image-text fit (coherencia título-thumbnail)?",
+      "reference_answer": "Un efecto positivo fuerte y robusto sobre las views, con coeficientes de +1.6 a +1.7 (hipótesis H3 soportada). Se calcula como coseno entre title_emb y thumb_emb en el mismo espacio CLIP multilingüe.",
+      "gold_docs": ["md/papers-sintesis.md", "pdf/1-s2.0-S0148296324003539-main.pdf"],
+      "format": "pdf",
+      "answerable": true
+    },
+    {
+      "id": "q10",
+      "question": "¿Qué problema metodológico tiene el paper de Nisa et al. (2021)?",
+      "reference_answer": "Fuga de objetivo (circularidad): su 'score' de popularidad se construye fusionando likes, dislikes y comentarios, señales que solo existen después de publicar. Es útil por su tabla-resumen de literatura, no como benchmark.",
+      "gold_docs": ["md/papers-sintesis.md", "pdf/electronics-10-02962-v2.pdf"],
+      "format": "pdf",
+      "answerable": true
+    },
+    {
+      "id": "q11",
+      "question": "¿Qué métricas obtuvo la búsqueda híbrida frente a la densa en el gold set del buscador de vídeos?",
+      "reference_answer": "Hybrid (+BM25): Recall@5 0.41, Recall@10 0.57, MRR 0.88, nDCG@10 0.69; frente a dense (mpnet): 0.33, 0.55, 0.77, 0.68. La capa léxica aporta sobre todo arriba del ranking (R@5 +0.08, MRR +0.11).",
+      "gold_docs": ["md/02-retrieval-README.md"],
+      "format": "md",
+      "answerable": true
+    },
+    {
+      "id": "q12",
+      "question": "¿Qué es la channel coherence y qué valores dio en cada espacio de embeddings?",
+      "reference_answer": "El coseno medio entre vídeos del mismo canal menos el de pares aleatorios. Valores: título mpnet +0.283, thumbnail SigLIP +0.234 y título SigLIP solo +0.034 (la anisotropía en acción). Es la medida detrás de la decisión de dos encoders.",
+      "gold_docs": ["md/02-retrieval-README.md"],
+      "format": "md",
+      "answerable": true
+    },
+    {
+      "id": "q13",
+      "question": "¿En qué puerto se sirve la plataforma web de MAVIS y con qué framework?",
+      "reference_answer": "Es una UI de Gradio servida en el puerto 7860; se levanta con docker compose up --build y se abre en http://localhost:7860.",
+      "gold_docs": ["md/03-platform-README.md", "yaml/docker-compose.yml"],
+      "format": "yaml",
+      "answerable": true
+    },
+    {
+      "id": "q14",
+      "question": "¿Qué hace la plataforma cuando el usuario no proporciona un handle de canal?",
+      "reference_answer": "Usa un canal sintético: los K vídeos del corpus más similares al input (SYNTHETIC_CHANNEL_SIZE, 30 por defecto) actúan como historial previo, y una barra de aviso en la UI deja claro que la señal es aproximada.",
+      "gold_docs": ["md/03-platform-README.md", "txt/env-example.txt"],
+      "format": "md",
+      "answerable": true
+    },
+    {
+      "id": "q15",
+      "question": "¿Qué pasos ejecuta MavisEngine al arrancar, antes de abrir el puerto?",
+      "reference_answer": "En orden: carga el corpus (videos.csv + 3 caches npz de embeddings), construye el índice BM25, carga el predictor final_model.joblib y calienta los encoders (SigLIP-large y mpnet) con un forward dummy. Solo después Gradio abre el puerto.",
+      "gold_docs": ["md/03-platform-README.md"],
+      "format": "md",
+      "answerable": true
+    },
+    {
+      "id": "q16",
+      "question": "¿Qué es 'el muro' en MAVIS y cómo se rompió?",
+      "reference_answer": "El colapso de la generalización cross-channel: todo modelo global de contenido→rendimiento se estanca en ~0.60 AUC porque el mismo contenido significa cosas distintas en canales distintos. Se rompió dejando de transferir: el modelo channel-conditional (kNN leakage-safe dentro del propio canal + meta-XGBoost) llegó a 0.753 y con el augment cross-channel (xchan) a 0.762.",
+      "gold_docs": ["md/01-classifier-README.md", "md/root-README.md"],
+      "format": "md",
+      "answerable": true
+    },
+    {
+      "id": "q17",
+      "question": "¿Qué modalidad es más fuerte en el clasificador, el título o la miniatura?",
+      "reference_answer": "La miniatura: thumbnail-only alcanza 0.747 de OUTLIER AUC frente a 0.720 de title-only (el modelo completo da 0.762). Esto invierte la premisa inicial; el modelo ya extrae de forma óptima la señal del thumbnail.",
+      "gold_docs": ["md/01-classifier-README.md"],
+      "format": "md",
+      "answerable": true
+    },
+    {
+      "id": "q18",
+      "question": "¿Qué parámetros usa la capa léxica BM25 del buscador?",
+      "reference_answer": "Okapi BM25 con k1=1.5 y b=0.75, sobre tokens en minúsculas y sin tildes. Entra en la fusión RRF como una ruta más con peso w_lex=1.0.",
+      "gold_docs": ["md/03-platform-README.md", "md/02-retrieval-README.md"],
+      "format": "md",
+      "answerable": true
+    },
+    {
+      "id": "q19",
+      "question": "¿Cuántas queries y cuántos vídeos relevantes tiene el gold set del buscador de vídeos (proyecto 2)?",
+      "reference_answer": "16 queries de nicho (dev/IA/homelab/ciberseguridad) con 154 vídeos relevantes anotados a mano leyendo títulos. Vive en eval_queries.json.",
+      "gold_docs": ["md/02-retrieval-README.md", "json/eval_queries.json"],
+      "format": "json",
+      "answerable": true
+    },
+    {
+      "id": "q20",
+      "question": "¿Qué canal tiene más vídeos en el corpus de MAVIS y cuántos son?",
+      "reference_answer": "@TheHiddenLevels (The Hidden Levels), con 534 vídeos en el corpus.",
+      "gold_docs": ["csv/channel_stats.csv"],
+      "format": "csv",
+      "answerable": true
+    },
+    {
+      "id": "q21",
+      "question": "¿Cuántos vídeos del canal @Hector.Pulido hay en el corpus y cuál es su mediana de views?",
+      "reference_answer": "Hay 5 vídeos de @Hector.Pulido (29.300 suscriptores), con una mediana de 2.872 views.",
+      "gold_docs": ["csv/channel_stats.csv"],
+      "format": "csv",
+      "answerable": true
+    },
+    {
+      "id": "q22",
+      "question": "¿Qué contiene el fichero mavis_queries.txt y para qué se usa?",
+      "reference_answer": "Queries de descubrimiento de YouTube para añadir masa crítica al cluster español de tech/IA, una por línea con etiqueta de idioma; por ejemplo 'inteligencia artificial tutorial 2025', 'ollama tutorial español' o 'chatgpt español curso'. Sirven para encontrar canales candidatos para el corpus.",
+      "gold_docs": ["txt/mavis_queries.txt"],
+      "format": "txt",
+      "answerable": true
+    },
+    {
+      "id": "q23",
+      "question": "¿Qué volúmenes nombrados define el docker-compose de la plataforma y para qué sirven?",
+      "reference_answer": "Dos: mavis_hf_cache, que persiste los pesos descargados de Hugging Face entre arranques, y mavis_tmp, el scratch de /tmp donde se cachean los scrapes de canal hechos desde la UI. docker compose down -v borra ambos.",
+      "gold_docs": ["yaml/docker-compose.yml", "md/03-platform-README.md"],
+      "format": "yaml",
+      "answerable": true
+    },
+    {
+      "id": "q24",
+      "question": "¿Qué política de limpieza se aplica al dataset de vídeos?",
+      "reference_answer": "Solo se eliminan las filas con views == 0 (artefactos de extracción, p.ej. vídeos members-only). Se conservan deliberadamente virales, flops y canales pequeños porque llevan señal real.",
+      "gold_docs": ["md/01-classifier-README.md"],
+      "format": "md",
+      "answerable": true
+    },
+    {
+      "id": "q25",
+      "question": "¿Qué reglas éticas sigue el scraping de MAVIS?",
+      "reference_answer": "Solo datos públicos (sin login, sin cookies, sin contenido age-gated), acceso read-only, ritmo moderado (delay y workers acotados), tomar solo lo necesario (sin transcripts, comentarios ni datos de espectadores), thumbnails almacenados localmente y nunca redistribuidos, atribución al creador y derecho a ser excluido del dataset.",
+      "gold_docs": ["md/00-scraping-README.md"],
+      "format": "md",
+      "answerable": true
+    },
+    {
+      "id": "q26",
+      "question": "¿Qué variables de entorno controlan las features kNN del modelo en la plataforma?",
+      "reference_answer": "KNN_MIN_PREV (mínimo de priors), MIN_PREV_FRAC y MIN_PREV_FLOOR (umbral dinámico de evaluables), KNN_TEMPS (temperaturas del softmax, por defecto 0.05, 0.1 y 0.3) y TERCILE_FRAC (tamaño del tercil para simtop/simbot).",
+      "gold_docs": ["txt/env-example.txt", "md/03-platform-README.md"],
+      "format": "txt",
+      "answerable": true
+    },
+    {
+      "id": "q27",
+      "question": "¿A qué instituciones pertenecen los autores del paper 'Beyond Views' de Wu, Rizoiu y Xie?",
+      "reference_answer": "A la Australian National University y a Data61 (CSIRO), en Australia.",
+      "gold_docs": ["pdf/1709.02541v4.pdf"],
+      "format": "pdf",
+      "answerable": true
+    },
+    {
+      "id": "u01",
+      "question": "¿Qué arquitectura de red neuronal usa el sistema de recomendación interno de YouTube?",
+      "reference_answer": null,
+      "gold_docs": [],
+      "format": null,
+      "answerable": false
+    },
+    {
+      "id": "u02",
+      "question": "¿Cuántos parámetros tiene el modelo SigLIP-2 large?",
+      "reference_answer": null,
+      "gold_docs": [],
+      "format": null,
+      "answerable": false
+    },
+    {
+      "id": "u03",
+      "question": "¿Bajo qué licencia de software se distribuye el código de MAVIS?",
+      "reference_answer": null,
+      "gold_docs": [],
+      "format": null,
+      "answerable": false
+    },
+    {
+      "id": "u04",
+      "question": "¿Qué resultados obtuvo MAVIS al aplicarse a TikTok o Instagram?",
+      "reference_answer": null,
+      "gold_docs": [],
+      "format": null,
+      "answerable": false
+    }
+  ]
+}
