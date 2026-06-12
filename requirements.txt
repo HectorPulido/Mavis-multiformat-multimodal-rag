@@ -1,0 +1,26 @@
+# MAVIS · Project 3 — platform (app.py + mavis_rag_engine.py) dependencies.
+# The engine reproduces the notebook, so these mirror what the notebook needs
+# plus the Gradio UI. numpy is pinned <2.0 for faiss/torch compatibility.
+
+# Web UI
+gradio==5.7.1                # bool-schema walker guard in app.py is written for 5.x
+
+# Numerics
+numpy>=1.26,<2.0
+pandas>=2.0,<3.0
+
+# Vector search
+faiss-cpu>=1.7,<2.0
+
+# Encoders (frozen at inference): SigLIP, mpnet, cross-encoder
+torch>=2.2,<3.0
+transformers>=4.41,<5.0
+sentencepiece>=0.2
+Pillow>=10.0
+
+# Document loaders (lazy: pdf + yaml)
+pypdf>=4.0
+PyYAML>=6.0
+
+# Generation (OpenAI-compatible: OpenAI, local servers, any base_url)
+openai>=1.40

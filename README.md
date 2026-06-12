@@ -1,4 +1,4 @@
-# Project 3 · Multimodal RAG assistant
+# MAVIS · Multimodal RAG assistant
 
 > A Retrieval-Augmented Generation assistant whose corpus is **centered on video
 > thumbnails and titles**, the same multimodal pair the whole MAVIS thesis studies,
@@ -291,6 +291,37 @@ clear message. Per-question generation results are cached, so repeated runs only
 for what is new. The folder is self-contained: it can be copied or pushed to its own
 repository as-is.
 
+### 7.1 · The web platform (Gradio)
+
+The same engine the notebook builds is packaged as a reusable module
+([`mavis_rag_engine.py`](mavis_rag_engine.py)) and served by a Gradio app
+([`app.py`](app.py)) with three tabs:
+
+- **Assistant (RAG)** — ask a question, get a cited answer plus the numbered context
+  blocks it used and the real thumbnails of the most related videos as visual evidence;
+  a toggle switches the cross-encoder re-rank (phase 1 ↔ phase 2) live.
+- **Video search (the core)** — query the corpus by text and/or by an uploaded
+  thumbnail; results are ranked by the fused RRF engine.
+- **Evaluation** — the notebook's measured numbers, read back from `cache/` (video
+  ablation, document retrieval, answer quality) with the saved figures.
+
+```bash
+# 1. install
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+
+# 2. (optional, for the Assistant tab) configure an OpenAI-compatible endpoint
+cp .env.test .env           # then fill in OPENAI_API_KEY (and OPENAI_BASE_URL for a local server)
+
+# 3. launch (http://localhost:7860)
+python app.py
+```
+
+The engine reads the **same `cache/`** the notebook writes: if you ran the notebook,
+the platform loads the cached embeddings instantly; if not, it regenerates them from
+the local corpus on first launch (a few minutes, encoders download once). The Video
+search and Evaluation tabs work with **no API key**; only the Assistant tab needs one.
+
 ## 8 · What we learned about RAG systems
 
 1. **Multimodal needs modality-aware indexing.** One shared multimodal model is not
@@ -315,6 +346,9 @@ repository as-is.
 | path | what |
 |---|---|
 | [`01_multiformat_rag.ipynb`](01_multiformat_rag.ipynb) | the self-contained notebook: inventory → video index → doc layer → RAG → re-ranking → 3-layer evaluation |
+| [`mavis_rag_engine.py`](mavis_rag_engine.py) | the notebook's engine as a reusable module (search · RAG answering · eval read-back) |
+| [`app.py`](app.py) | Gradio platform: Assistant (RAG) · Video search · Evaluation tabs |
+| [`requirements.txt`](requirements.txt) · [`.env.test`](.env.test) | platform dependencies and the shared notebook/platform configuration template |
 | [`corpus/videos/`](corpus/videos/) | the video corpus: 300 thumbnails (320px) + `videos.csv` (titles & metadata) |
 | [`corpus/`](corpus/) | the document layer, organized by format; everything in it gets indexed |
 | [`eval_videos.json`](eval_videos.json) | gold set, video retrieval: 10 queries, 79 relevant videos |
